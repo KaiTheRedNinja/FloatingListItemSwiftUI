@@ -7,11 +7,16 @@
 
 import SwiftUI
 
-struct FloatingListOverlayViewModifier: ViewModifier {
+struct FloatingListOverlayViewModifier<Body: View>: ViewModifier {
+
     @ObservedObject var itemManager: FloatingListItemManager
 
-    init(floaterID: String) {
-        itemManager = .manager(string: floaterID)
+    @ViewBuilder
+    var hoverContent: () -> Body
+
+    init(floaterID: String, @ViewBuilder content: @escaping () -> Body) {
+        self.itemManager = .manager(string: floaterID)
+        self.hoverContent = content
     }
 
     func body(content: Content) -> some View {
@@ -21,9 +26,7 @@ struct FloatingListOverlayViewModifier: ViewModifier {
                     GeometryReader { geometry in
                         VStack {
                             Spacer()
-                            Button("Exit") {
-
-                            }
+                            hoverContent()
                             .onChange(of: geometry.frame(in: .local)) { newValue in
                                 print("Exit pos: \(newValue)")
                                 itemManager.exitPos = newValue
@@ -31,8 +34,6 @@ struct FloatingListOverlayViewModifier: ViewModifier {
                             .onAppear {
                                 itemManager.exitPos = geometry.frame(in: .local)
                             }
-                            .frame(height: 45)
-                            .frame(maxWidth: .infinity)
                             .background(tableColor)
                             .cornerRadius(10)
                             .padding(.horizontal, 20)
@@ -52,7 +53,7 @@ struct FloatingListOverlayViewModifier: ViewModifier {
 }
 
 public extension List {
-    func floatingList(floaterID: String) -> some View {
-        self.modifier(FloatingListOverlayViewModifier(floaterID: floaterID))
+    func floatingList(floaterID: String, @ViewBuilder body: @escaping () -> some View) -> some View {
+        self.modifier(FloatingListOverlayViewModifier(floaterID: floaterID, content: body))
     }
 }
