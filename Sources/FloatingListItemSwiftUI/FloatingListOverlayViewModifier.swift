@@ -52,6 +52,7 @@ struct FloatingListOverlayViewModifier: ViewModifier {
     @ViewBuilder
     func formattedContent(shadowSize: CGFloat, floating: Bool) -> some View {
         itemManager.floatingItem
+            .frame(maxWidth: .infinity)
             .padding(.horizontal, 20)   // to mimick the internal spacing of a List
             .background(tableColor)     // to mimick the background of a List
             .cornerRadius(10)           // to mimick the corner radius of a List

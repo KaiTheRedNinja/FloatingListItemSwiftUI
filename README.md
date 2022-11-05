@@ -34,7 +34,6 @@ struct ExampleListView: View {
                 ZStack(alignment: .center) {
                     Text("This is a demo of FloatingListItemSwiftUI")
                 }
-                .frame(maxWidth: .infinity)
                 .frame(height: 60)
                 .floatingListItem(floaterID: "info") // <--
                 .frame(height: 40)
@@ -90,7 +89,6 @@ which applies that view on the top/bottom, hiding/showing it and giving it shado
 
 - Due to the use of GeometryReader and how List works, the user needs to set the `frame` of the view
 before and after using `.floatingListItem`.
-- `.frame(maxWidth: .infinity)` is required to make the view fill the space while it hovers
 
 ## Installation
 ### Swift Package Manager
