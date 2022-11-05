@@ -66,7 +66,7 @@ struct FloatingListOverlayViewModifier: ViewModifier {
     }
 }
 
-public extension List {
+public extension View {
     /// Marks a `List` as containing a floating list item
     ///
     /// The `floaterID` must be the SAME between the `List` and the `View` that the developer wants to float
