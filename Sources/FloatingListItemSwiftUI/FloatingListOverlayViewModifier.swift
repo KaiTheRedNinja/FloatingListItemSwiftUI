@@ -39,8 +39,8 @@ struct FloatingListOverlayViewModifier<Body: View>: ViewModifier {
                                     }
                                     .background(tableColor)
                                     .cornerRadius(10)
-                                    .padding(.horizontal, 20)
                                     .shadow(color: Color.gray, radius: itemManager.topShadow * 10)
+                                    .padding(.horizontal, 20)
                                     .opacity(itemManager.floatingTop ? 1 : 0)
                             }
 
@@ -53,8 +53,8 @@ struct FloatingListOverlayViewModifier<Body: View>: ViewModifier {
                                 hoverContent()
                                     .background(tableColor)
                                     .cornerRadius(10)
-                                    .padding(.horizontal, 20)
                                     .shadow(color: Color.gray, radius: itemManager.bottomShadow * 10)
+                                    .padding(.horizontal, 20)
                                     .opacity(itemManager.floatingBottom ? 1 : 0)
                             }
                             Spacer().frame(height: 20)
