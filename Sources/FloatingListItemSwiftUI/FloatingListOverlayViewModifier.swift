@@ -45,6 +45,9 @@ struct FloatingListOverlayViewModifier<Body: View>: ViewModifier {
                             }
 
                             Spacer()
+                            Text("\(itemManager.scroll.debugDescription)")
+                            Text("\(itemManager.pos.debugDescription)")
+                            Spacer()
 
                             if pinLocations == .bottom || pinLocations == .all {
                                 hoverContent()

@@ -23,9 +23,9 @@ struct FloatingListItemViewModifier: ViewModifier {
                 .onAppear {
                     itemManager.scroll = geometry.frame(in: .global)
                 }
-                .opacity(itemManager.floatingBottom ? 0.001 : 1)
+                .opacity((itemManager.floatingBottom || itemManager.floatingTop) ? 0.001 : 1)
         }
-        .listRowBackground(itemManager.floatingBottom ? Color.clear : tableColor)
+        .listRowBackground((itemManager.floatingBottom || itemManager.floatingTop) ? Color.clear : tableColor)
     }
 
     @Environment(\.colorScheme) private var colorScheme

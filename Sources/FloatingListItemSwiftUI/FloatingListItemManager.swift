@@ -11,36 +11,47 @@ class FloatingListItemManager: ObservableObject {
     @Published var scroll: CGRect = .zero
     @Published var pos: CGRect = .zero
 
-    var floatingBottom: Bool {
-        scroll.maxY-scroll.height > pos.height || scroll == .zero
-    }
-
-    var bottomShadow: CGFloat {
-        if scroll.maxY-scroll.height > pos.height ||
-            scroll == .zero {
-            guard scroll != .zero else { return 1 }
-            // calculate shadow amount
-            let difference = (scroll.maxY-scroll.height) - pos.height
-            return min(1, difference/70)
-        } else {
-            return 0
-        }
-    }
-
+    // MARK: TOP
     var floatingTop: Bool {
-        scroll.maxY-scroll.height - 85 < pos.minX && scroll != .zero
+        topAdjusted < pos.minY && scroll != .zero
     }
 
     var topShadow: CGFloat {
-        if scroll.maxY-scroll.height - 85 < pos.minX &&
+        if topAdjusted < pos.minY &&
             scroll != .zero {
             // calculate shadow amount
-            let difference = pos.minX - (scroll.maxY-scroll.height - 85)
+            let difference = pos.minY - topAdjusted
             return min(1, difference/70)
         } else {
             return 0
         }
     }
+
+    var safeAreaTop: CGFloat { UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0 }
+    let topMagicNumber: CGFloat = 20
+    var topAdjusted: CGFloat { scroll.minY - safeAreaTop - topMagicNumber }
+
+    // MARK: BOTTOM
+    var floatingBottom: Bool {
+        bottomAdjusted > pos.maxY || scroll == .zero
+    }
+
+    var bottomShadow: CGFloat {
+        if bottomAdjusted > pos.maxY ||
+            scroll == .zero {
+            guard scroll != .zero else { return 1 }
+            // calculate shadow amount
+            let difference = bottomAdjusted - pos.maxY
+            return min(1, difference/70)
+        } else {
+            return 0
+        }
+    }
+
+    var safeAreaBottom: CGFloat { UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0 }
+    let bottomMagicNumber: CGFloat = 0
+    var bottomAdjusted: CGFloat { scroll.maxY - safeAreaBottom - bottomMagicNumber }
+
 }
 
 // MARK: Static things
