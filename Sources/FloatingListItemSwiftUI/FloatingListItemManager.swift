@@ -9,18 +9,33 @@ import SwiftUI
 
 class FloatingListItemManager: ObservableObject {
     @Published var scroll: CGRect = .zero
-    @Published var exitPos: CGRect = .zero
+    @Published var pos: CGRect = .zero
 
-    var floatingExit: Bool {
-        scroll.maxY-scroll.height > exitPos.height || scroll == .zero
+    var floatingBottom: Bool {
+        scroll.maxY-scroll.height > pos.height || scroll == .zero
     }
 
-    var exitShadow: CGFloat {
-        if scroll.maxY-scroll.height > exitPos.height ||
+    var bottomShadow: CGFloat {
+        if scroll.maxY-scroll.height > pos.height ||
             scroll == .zero {
             guard scroll != .zero else { return 1 }
             // calculate shadow amount
-            let difference = (scroll.maxY-scroll.height) - exitPos.height
+            let difference = (scroll.maxY-scroll.height) - pos.height
+            return min(1, difference/70)
+        } else {
+            return 0
+        }
+    }
+
+    var floatingTop: Bool {
+        scroll.maxY-scroll.height - 85 < pos.minX && scroll != .zero
+    }
+
+    var topShadow: CGFloat {
+        if scroll.maxY-scroll.height - 85 < pos.minX &&
+            scroll != .zero {
+            // calculate shadow amount
+            let difference = pos.minX - (scroll.maxY-scroll.height - 85)
             return min(1, difference/70)
         } else {
             return 0

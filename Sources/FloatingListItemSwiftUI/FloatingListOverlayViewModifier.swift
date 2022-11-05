@@ -25,20 +25,28 @@ struct FloatingListOverlayViewModifier<Body: View>: ViewModifier {
                 .overlay {
                     GeometryReader { geometry in
                         VStack {
-                            Spacer()
+                            Spacer().frame(height: 20)
                             hoverContent()
-                            .onChange(of: geometry.frame(in: .local)) { newValue in
-                                print("Exit pos: \(newValue)")
-                                itemManager.exitPos = newValue
-                            }
-                            .onAppear {
-                                itemManager.exitPos = geometry.frame(in: .local)
-                            }
-                            .background(tableColor)
-                            .cornerRadius(10)
-                            .padding(.horizontal, 20)
-                            .shadow(color: Color.gray, radius: itemManager.exitShadow * 10)
-                            .opacity(itemManager.floatingExit ? 1 : 0)
+                                .onChange(of: geometry.frame(in: .global)) { newValue in
+                                    itemManager.pos = newValue
+                                }
+                                .onAppear {
+                                    itemManager.pos = geometry.frame(in: .local)
+                                }
+                                .background(tableColor)
+                                .cornerRadius(10)
+                                .padding(.horizontal, 20)
+                                .shadow(color: Color.gray, radius: itemManager.topShadow * 10)
+                                .opacity(itemManager.floatingTop ? 1 : 0)
+
+                            Spacer()
+
+                            hoverContent()
+                                .background(tableColor)
+                                .cornerRadius(10)
+                                .padding(.horizontal, 20)
+                                .shadow(color: Color.gray, radius: itemManager.bottomShadow * 10)
+                                .opacity(itemManager.floatingBottom ? 1 : 0)
                             Spacer().frame(height: 20)
                         }
                     }

@@ -18,15 +18,14 @@ struct FloatingListItemViewModifier: ViewModifier {
         GeometryReader { geometry in
             content
                 .onChange(of: geometry.frame(in: .global)) { newValue in
-                    print("Scrol pos: \(newValue)")
                     itemManager.scroll = newValue
                 }
                 .onAppear {
                     itemManager.scroll = geometry.frame(in: .global)
                 }
-                .opacity(itemManager.floatingExit ? 0.001 : 1)
+                .opacity(itemManager.floatingBottom ? 0.001 : 1)
         }
-        .listRowBackground(itemManager.floatingExit ? Color.clear : tableColor)
+        .listRowBackground(itemManager.floatingBottom ? Color.clear : tableColor)
     }
 
     @Environment(\.colorScheme) private var colorScheme
