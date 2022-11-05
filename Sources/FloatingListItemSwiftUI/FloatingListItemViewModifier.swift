@@ -17,6 +17,7 @@ struct FloatingListItemViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         GeometryReader { geometry in
             content
+                .frame(width: geometry.size.width, height: geometry.size.height)
                 .onChange(of: geometry.frame(in: .global)) { newValue in
                     itemManager.scroll = newValue
                 }

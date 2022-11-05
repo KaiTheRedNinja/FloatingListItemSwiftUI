@@ -50,7 +50,7 @@ class FloatingListItemManager: ObservableObject {
     }
 
     var safeAreaBottom: CGFloat { UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0 }
-    let bottomMagicNumber: CGFloat = 0
+    let bottomMagicNumber: CGFloat = -5
     var bottomAdjusted: CGFloat { scroll.maxY - safeAreaBottom - bottomMagicNumber }
 
 }
