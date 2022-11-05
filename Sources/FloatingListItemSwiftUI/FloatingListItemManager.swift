@@ -17,6 +17,8 @@ class FloatingListItemManager: ObservableObject {
     /// Which locations the floating item should pin to: top, bottom, all, or none
     @Published var pinLocations: PinLocations = .none
 
+    @Published var floatingItem: AnyView = AnyView(erasing: EmptyView())
+
     // MARK: TOP
     /// If the item is floating on the top of the screen
     var floatingTop: Bool {

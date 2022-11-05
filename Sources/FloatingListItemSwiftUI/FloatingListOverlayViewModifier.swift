@@ -7,16 +7,12 @@
 
 import SwiftUI
 
-struct FloatingListOverlayViewModifier<Body: View>: ViewModifier {
+struct FloatingListOverlayViewModifier: ViewModifier {
 
     @ObservedObject var itemManager: FloatingListItemManager
 
-    @ViewBuilder
-    var hoverContent: () -> Body
-
-    init(floaterID: String, pinLocations: PinLocations = .bottom, @ViewBuilder content: @escaping () -> Body) {
+    init(floaterID: String, pinLocations: PinLocations = .bottom) {
         self.itemManager = .manager(string: floaterID)
-        self.hoverContent = content
         self.itemManager.pinLocations = pinLocations
     }
 
@@ -55,7 +51,7 @@ struct FloatingListOverlayViewModifier<Body: View>: ViewModifier {
 
     @ViewBuilder
     func formattedContent(shadowSize: CGFloat, floating: Bool) -> some View {
-        hoverContent()
+        itemManager.floatingItem
             .padding(.horizontal, 20)   // to mimick the internal spacing of a List
             .background(tableColor)     // to mimick the background of a List
             .cornerRadius(10)           // to mimick the corner radius of a List
@@ -75,15 +71,11 @@ public extension List {
     ///
     /// The `floaterID` must be the SAME between the `List` and the `View` that the developer wants to float
     ///
-    /// Due to current limitations, one must specify the `View` both in the list (marked using `.floatingListItem(floaterID:)`)
-    /// and here. It is best if the `View` is defined in a separate variable and reused for both cases.
-    ///
     /// - Parameter floaterID: The ID of the View
     /// - Parameter pinLocations: The locations where the floating list item should pin
     /// - Parameter body: The floating `View`
     func floatingList(floaterID: String,
-                      pinLocations: PinLocations = .bottom,
-                      @ViewBuilder body: @escaping () -> some View) -> some View {
-        self.modifier(FloatingListOverlayViewModifier(floaterID: floaterID, pinLocations: pinLocations, content: body))
+                      pinLocations: PinLocations = .bottom) -> some View {
+        self.modifier(FloatingListOverlayViewModifier(floaterID: floaterID, pinLocations: pinLocations))
     }
 }

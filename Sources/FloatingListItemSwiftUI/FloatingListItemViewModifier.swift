@@ -7,11 +7,16 @@
 
 import SwiftUI
 
-struct FloatingListItemViewModifier: ViewModifier {
+struct FloatingListItemViewModifier<Body: View>: ViewModifier {
     @ObservedObject var itemManager: FloatingListItemManager
 
-    init(floaterID: String) {
-        itemManager = .manager(string: floaterID)
+    @ViewBuilder
+    var view: () -> Body
+
+    init(floaterID: String, @ViewBuilder view: @escaping () -> Body) {
+        self.itemManager = .manager(string: floaterID)
+        self.view = view
+        itemManager.floatingItem = AnyView(erasing: view())
     }
 
     func body(content: Content) -> some View {
@@ -51,6 +56,6 @@ public extension View {
     ///
     /// - Parameter floaterID: The ID of the View
     func floatingListItem(floaterID: String) -> some View {
-        self.modifier(FloatingListItemViewModifier(floaterID: floaterID))
+        self.modifier(FloatingListItemViewModifier(floaterID: floaterID, view: { self }))
     }
 }
