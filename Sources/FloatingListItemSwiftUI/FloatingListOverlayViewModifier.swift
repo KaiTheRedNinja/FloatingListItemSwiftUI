@@ -33,7 +33,7 @@ struct FloatingListOverlayViewModifier: ViewModifier {
                             }
                             .frame(height: 45)
                             .frame(maxWidth: .infinity)
-                            .background(itemManager.tableColor)
+                            .background(tableColor)
                             .cornerRadius(10)
                             .padding(.horizontal, 20)
                             .shadow(color: Color.gray, radius: itemManager.exitShadow * 10)
@@ -43,6 +43,11 @@ struct FloatingListOverlayViewModifier: ViewModifier {
                     }
                 }
         }
+    }
+
+    @Environment(\.colorScheme) private var colorScheme
+    var tableColor: Color {
+        colorScheme == .light ? Color.white : Color(uiColor: UIColor.systemGray6)
     }
 }
 

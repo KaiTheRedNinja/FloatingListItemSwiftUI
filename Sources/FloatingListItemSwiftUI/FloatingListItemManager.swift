@@ -10,23 +10,17 @@ import SwiftUI
 class FloatingListItemManager: ObservableObject {
     @Published var scroll: CGRect = .zero
     @Published var exitPos: CGRect = .zero
-    @Published var difference: CGFloat = 0
-
-    @Environment(\.colorScheme) var colorScheme
-    var tableColor: Color {
-        colorScheme == .light ? Color.white : Color(uiColor: UIColor.systemGray6)
-    }
 
     var floatingExit: Bool {
-        scroll.minY-scroll.height > exitPos.height || scroll == .zero
+        scroll.maxY-scroll.height > exitPos.height || scroll == .zero
     }
 
     var exitShadow: CGFloat {
-        if scroll.minY-scroll.height > exitPos.height ||
+        if scroll.maxY-scroll.height > exitPos.height ||
             scroll == .zero {
             guard scroll != .zero else { return 1 }
             // calculate shadow amount
-            difference = (scroll.minY-scroll.height) - exitPos.height
+            let difference = (scroll.maxY-scroll.height) - exitPos.height
             return min(1, difference/70)
         } else {
             return 0

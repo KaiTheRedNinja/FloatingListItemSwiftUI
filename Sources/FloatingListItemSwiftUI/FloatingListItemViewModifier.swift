@@ -26,6 +26,12 @@ struct FloatingListItemViewModifier: ViewModifier {
                 }
                 .opacity(itemManager.floatingExit ? 0.001 : 1)
         }
+        .listRowBackground(itemManager.floatingExit ? Color.clear : tableColor)
+    }
+
+    @Environment(\.colorScheme) private var colorScheme
+    var tableColor: Color {
+        colorScheme == .light ? Color.white : Color(uiColor: UIColor.systemGray6)
     }
 }
 
