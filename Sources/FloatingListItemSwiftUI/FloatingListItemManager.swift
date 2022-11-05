@@ -10,15 +10,16 @@ import SwiftUI
 class FloatingListItemManager: ObservableObject {
     @Published var scroll: CGRect = .zero
     @Published var pos: CGRect = .zero
+    @Published var pinLocations: PinLocations = .none
 
     // MARK: TOP
     var floatingTop: Bool {
-        topAdjusted < pos.minY && scroll != .zero
+        (topAdjusted < pos.minY && scroll != .zero) &&
+        (pinLocations == .top || pinLocations == .all)
     }
 
     var topShadow: CGFloat {
-        if topAdjusted < pos.minY &&
-            scroll != .zero {
+        if topAdjusted < pos.minY && scroll != .zero {
             // calculate shadow amount
             let difference = pos.minY - topAdjusted
             return min(1, difference/70)
@@ -33,12 +34,12 @@ class FloatingListItemManager: ObservableObject {
 
     // MARK: BOTTOM
     var floatingBottom: Bool {
-        bottomAdjusted > pos.maxY || scroll == .zero
+        (bottomAdjusted > pos.maxY || scroll == .zero) &&
+        (pinLocations == .bottom || pinLocations == .all)
     }
 
     var bottomShadow: CGFloat {
-        if bottomAdjusted > pos.maxY ||
-            scroll == .zero {
+        if bottomAdjusted > pos.maxY || scroll == .zero {
             guard scroll != .zero else { return 1 }
             // calculate shadow amount
             let difference = bottomAdjusted - pos.maxY
@@ -52,6 +53,13 @@ class FloatingListItemManager: ObservableObject {
     let bottomMagicNumber: CGFloat = 0
     var bottomAdjusted: CGFloat { scroll.maxY - safeAreaBottom - bottomMagicNumber }
 
+}
+
+public enum PinLocations {
+    case top
+    case bottom
+    case all
+    case none
 }
 
 // MARK: Static things

@@ -14,12 +14,10 @@ struct FloatingListOverlayViewModifier<Body: View>: ViewModifier {
     @ViewBuilder
     var hoverContent: () -> Body
 
-    @State var pinLocations: PinLocations
-
     init(floaterID: String, pinLocations: PinLocations = .bottom, @ViewBuilder content: @escaping () -> Body) {
         self.itemManager = .manager(string: floaterID)
         self.hoverContent = content
-        self._pinLocations = State(initialValue: pinLocations)
+        self.itemManager.pinLocations = pinLocations
     }
 
     func body(content: Content) -> some View {
@@ -29,7 +27,7 @@ struct FloatingListOverlayViewModifier<Body: View>: ViewModifier {
                     GeometryReader { geometry in
                         VStack {
                             Spacer().frame(height: 20)
-                            if pinLocations == .top || pinLocations == .all {
+                            if itemManager.pinLocations == .top || itemManager.pinLocations == .all {
                                 hoverContent()
                                     .onChange(of: geometry.frame(in: .global)) { newValue in
                                         itemManager.pos = newValue
@@ -46,7 +44,7 @@ struct FloatingListOverlayViewModifier<Body: View>: ViewModifier {
 
                             Spacer()
 
-                            if pinLocations == .bottom || pinLocations == .all {
+                            if itemManager.pinLocations == .bottom || itemManager.pinLocations == .all {
                                 hoverContent()
                                     .background(tableColor)
                                     .cornerRadius(10)
@@ -65,13 +63,6 @@ struct FloatingListOverlayViewModifier<Body: View>: ViewModifier {
     var tableColor: Color {
         colorScheme == .light ? Color.white : Color(uiColor: UIColor.systemGray6)
     }
-}
-
-public enum PinLocations {
-    case top
-    case bottom
-    case all
-    case none
 }
 
 public extension List {
