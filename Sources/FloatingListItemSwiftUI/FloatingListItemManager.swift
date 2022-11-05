@@ -28,7 +28,7 @@ class FloatingListItemManager: ObservableObject {
     }
 
     var safeAreaTop: CGFloat { UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0 }
-    let topMagicNumber: CGFloat = 20
+    let topMagicNumber: CGFloat = 25
     var topAdjusted: CGFloat { scroll.minY - safeAreaTop - topMagicNumber }
 
     // MARK: BOTTOM
