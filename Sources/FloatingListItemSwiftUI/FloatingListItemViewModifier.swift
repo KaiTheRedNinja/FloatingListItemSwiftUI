@@ -53,7 +53,7 @@ struct FloatingListItemViewModifier<Body: View>: ViewModifier {
     func debug() {
         print("Scroll: \(itemManager.scroll)")
         print("Pos:    \(itemManager.pos)")
-        print("FloatB: \(itemManager.floatingBottom)")
+        print("FloatT: \(itemManager.floatingTop)")
     }
 }
 
