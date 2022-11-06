@@ -37,9 +37,9 @@ class FloatingListItemManager: ObservableObject {
         }
     }
 
-    private var safeAreaTop: CGFloat { UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0 }
+    private var safeAreaTop: CGFloat { safeAreaTopOverride ?? UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0 }
     private let topMagicNumber: CGFloat = 30
-    private var topAdjusted: CGFloat { scroll.minY - safeAreaTop - topMagicNumber }
+    var topAdjusted: CGFloat { scroll.minY - safeAreaTop - topMagicNumber }
 
     // MARK: BOTTOM
     /// If the item is floating on the bottom of the screen
@@ -60,10 +60,13 @@ class FloatingListItemManager: ObservableObject {
         }
     }
 
-    private var safeAreaBottom: CGFloat { UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0 }
+    private var safeAreaBottom: CGFloat { safeAreaBottomOverride ?? UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0 }
     private let bottomMagicNumber: CGFloat = -5
-    private var bottomAdjusted: CGFloat { scroll.maxY - safeAreaBottom - bottomMagicNumber }
+    var bottomAdjusted: CGFloat { scroll.maxY - safeAreaBottom - bottomMagicNumber }
 
+    // MARK: For testing purposes
+    var safeAreaTopOverride: CGFloat? = nil
+    var safeAreaBottomOverride: CGFloat? = nil
 }
 
 public enum PinLocations {
