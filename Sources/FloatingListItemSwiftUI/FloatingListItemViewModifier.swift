@@ -27,14 +27,11 @@ struct FloatingListItemViewModifier<Body: View>: ViewModifier {
                     // detect if the position in the List's scroll view has changed
                     // update scroll accordingly
                     itemManager.scroll = newValue
-                    debug()
                 }
                 .onAppear {
                     // update scroll when content appears for the first time,
                     // as the item's scroll position may not have nescessarily changed
                     itemManager.scroll = geometry.frame(in: .global)
-                    print("Bezels: \(UIApplication.shared.windows.first?.safeAreaInsets.top) \(UIApplication.shared.windows.first?.safeAreaInsets.bottom)")
-                    debug()
                 }
                 // set to 0.001 opacity if the item is floating. It is not 0 so that the view
                 // still takes up space but yet is invisible, at least to human eyes.
@@ -48,12 +45,6 @@ struct FloatingListItemViewModifier<Body: View>: ViewModifier {
     /// The color of the table, following the color scheme
     var tableColor: Color {
         colorScheme == .light ? Color.white : Color(uiColor: UIColor.systemGray6)
-    }
-
-    func debug() {
-        print("Scroll: \(itemManager.scroll)")
-        print("Pos:    \(itemManager.pos)")
-        print("FloatT: \(itemManager.floatingTop)")
     }
 }
 

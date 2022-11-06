@@ -5,7 +5,7 @@ final class FloatingListItemSwiftUITests: XCTestCase {
 
     // how far apart the measurements are
     // eg. for 20, it would test exactly the value, value+20, and value-20
-    let tightness: CGFloat = 20
+    let tightness: CGFloat = 1
 
     func testForYLevel(manager: FloatingListItemManager,
                        yLevel: CGFloat,
