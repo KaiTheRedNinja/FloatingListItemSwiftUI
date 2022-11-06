@@ -57,7 +57,7 @@ struct FloatingListOverlayViewModifier: ViewModifier {
             .background(tableColor)     // to mimick the background of a List
             .cornerRadius(10)           // to mimick the corner radius of a List
             .shadow(color: Color.gray, radius: shadowSize * 10) // to distinguish the floating item from the other List items
-            .padding(.horizontal, 20)   // to mimick the external spacing of a list
+            .padding(.horizontal, itemManager.scroll.minX/2)    // to mimick the external spacing of a list
             .opacity(floating ? 1 : 0) // hidden when not needed
     }
 
